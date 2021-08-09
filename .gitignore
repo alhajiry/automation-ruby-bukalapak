@@ -1,0 +1,5 @@
+#Ruby Mine Configuration
+.idea/
+
+#ignore gemlock
+Gemfile.lock
