@@ -18,8 +18,4 @@ If assset folder not exist, please create it and put on the root of the project
 cucumber features/gherkin_file/test_case.feature:2
 
 **Current Scenario Available to Run**<br>
-cucumber features/gherkin_file/test_case.feature:9 <br>
-cucumber features/gherkin_file/test_case.feature:71
-
-_Additional Notes_<br>
-Currently the task to automate sign up and sign in in Amazon not yet developed, since I use office laptop that block access to Amazon
+cucumber features/gherkin_file/test_case.feature:3 <br>

@@ -1,0 +1,7 @@
+search_box: "id:v-omnisearch__input"
+search_submit_button: "class:v-omnisearch__submit"
+filter_min_price: "xpath://div[@class = 'te-filter-price']/descendant::input[@placeholder = 'min']"
+filter_max_price: "xpath://div[@class = 'te-filter-price']/descendant::input[@placeholder = 'maks']"
+add_to_card_button: "xpath://button[contains(@class, 'c-main-product__action__cart')]"
+product_first_index: "xpath:(//div[@class='bl-product-card__thumbnail'])[1]"
+login_container: "class:login-container"

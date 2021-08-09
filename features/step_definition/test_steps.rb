@@ -16,28 +16,6 @@ Given (/^User go to url "([^"]*)"$/) do |url|
     end
 end
 
-Given (/^User login to mekari journal with "([^"]*)"$/) do |data|
-    begin
-
-        login_data = mapper.key_processor_login(data)
-        
-        username_field = mapper.key_element_processor('mekari_username_field')
-        password_field = mapper.key_element_processor('mekari_password_field')
-
-
-        user_fill(username_field[0], username_field[1], login_data[0])
-        user_fill(password_field[0], password_field[1], login_data[1])
-
-        steps %Q{
-            And User click "mekari_jurnal_login_button"
-        }
-
-    rescue StandardError => e
-        raise e.message
-    end
-end
-
-
 When (/^User click "([^"]*)"$/) do |element|
     begin
         element_hash = mapper.key_element_processor(element)
@@ -329,7 +307,7 @@ When(/^User click by coordinate (\d+)#(\d+)$/) do |corX, corY|
     end
 end
 
-When (/^Verify element (contains|with) "([^"]*)" text will displayed$/) do |cond1, data|
+When(/^Verify element (contains|with) "([^"]*)" text will displayed$/) do |cond1, data|
   begin
     
     expected_data = mapper.test_data_hash[data]
@@ -362,5 +340,73 @@ When (/^Verify element (contains|with) "([^"]*)" text will displayed$/) do |cond
     end
 end
 
+When(/^User search product "([^"]*)"$/) do |data|
+    begin
+        search_data = mapper.test_data_hash[data]
+        puts search_data
 
+        search_box = mapper.key_element_processor("search_box")
+        click_element(search_box[0], search_box[1])
+        # sleep(5)
+        user_fill(search_box[0], search_box[1], search_data)
+
+        search_submit_button = mapper.key_element_processor("search_submit_button")
+        click_element(search_submit_button[0], search_submit_button[1])
+    
+    rescue StandardError => e
+        raise e.message
+    end
+  end
+
+  When(/^User scroll down until element "([^"]*)" visible $/) do |element|
+  begin
+    element = mapper.key_element_processor(element)
+    element_data = user_find(element_data[0], element_data[1])
+
+    $driver.execute_script("arguments[0].scrollIntoView();", element_data)
+
+  rescue StandardError => e
+    raise e.message
+  end
+end
+
+
+  When(/^User filter product with (min|max) value "([^"]*)"$/) do |cond, price| 
+  begin
+        price_limit = mapper.test_data_hash[price]
+        price_selector_min = ""
+        price_selector_max = ""
+        
+        if (cond == "min")
+            price_selector_min = mapper.key_element_processor("filter_min_price")
+            price_selector = user_find(price_selector_min[0], price_selector_min[1])
+            # user_fill(price_selector_min[0], price_selector_min[1], price_limit)
+        end
+
+        if (cond === "max")
+            price_selector_max = mapper.key_element_processor("filter_max_price")
+            price_selector = user_find(price_selector_max[0], price_selector_max[1])
+        end
+
+        $driver.execute_script("arguments[0].scrollIntoView();", price_selector);
+        click_element(price_selector_min[0], price_selector_min[1])
+        price_selector.send_keys(price_limit)
+        sleep(5)
+
+        rescue StandardError => e
+            raise e.message
+    end
+end
+
+When(/^User click product with text "([^"]*)"$/) do |data|
+    begin
+        product = mapper.test_data_hash[data]
+        product_card = user_find('xpath', "//div[@class='bl-product-card__description']/descendant::a[contains(text(), '#{product}')]")
+
+        product_card.click()
+    
+    rescue StandardError => e
+    raise e.message
+  end
+end
 
